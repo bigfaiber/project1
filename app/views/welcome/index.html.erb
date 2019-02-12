@@ -1,0 +1,11 @@
+Hey this is my index
+
+<div class = 'container'>
+    <%if current_user == @user.id%>
+    <% if @user.role == "Cliente" %>
+        <%= render "/users/client"%>
+    <% else %>
+        <%= render "/users/worker"%>
+    <% end%>
+    <%end%>
+</div>

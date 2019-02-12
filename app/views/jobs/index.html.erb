@@ -1,0 +1,7 @@
+
+<ul>
+<% @jobs.each do |j|%>
+<li><%= link_to(j.position, user_job_apps_path(@client.id,j.id)) %></li>
+<% end %>
+</ul>
+
