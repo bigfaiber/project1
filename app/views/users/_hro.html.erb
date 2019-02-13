@@ -7,6 +7,6 @@ hro view
 <ul>
 
 <% @clients.each do |c| %>
-    <li><%= link_to(c.name, user_jobs_path(c.id)) %></li>
+    <li><%= link_to(c.name + ' ' + c.last_name, user_jobs_path(c.id)) %></li>
 <% end %>
 </ul>

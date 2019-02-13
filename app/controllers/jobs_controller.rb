@@ -8,6 +8,7 @@ class JobsController < ApplicationController
         @client = Cliente.find(params[:user_id])
         @jobs = @client.jobs
         else
+        @client = Cliente.all
         @jobs = Job.all
         end
     end
@@ -15,6 +16,7 @@ class JobsController < ApplicationController
     def show
         @client = Cliente.find(params[:user_id])
         @job = @client.jobs.find(params[:id])
+        #@worker = Trabajador.find(params[:user_id])
     end
 
     def new
@@ -23,6 +25,7 @@ class JobsController < ApplicationController
     end
 
     def create
+        
         @user = current_user
         @user.jobs.create(post_params)
     end

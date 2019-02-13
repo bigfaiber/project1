@@ -6,4 +6,19 @@ module ApplicationHelper
  #       end
  #   end
 
+    def worker_logged_in?
+        current_user && current_user.role == 'Trabajador'
+    end
+
+    def client_logged_in?
+        current_user && current_user.role == 'Cliente'
+    end
+
+    def hro_logged_in?
+        current_user && current_user.role == 'HRO'
+    end
+
+    def current_worker
+        Trabajador.find(current_user.id) if worker_logged_in?
+    end
 end

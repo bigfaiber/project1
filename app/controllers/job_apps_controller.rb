@@ -17,6 +17,12 @@ class JobAppsController < ApplicationController
         end
     end
 
+    def create
+        job = Job.find(params[:job_id])
+        current_worker.jobs << job
+        redirect_to user_job_apps_path(current_worker.id)
+    end
+
     def isCliente?
         User.find(params[:user_id]).role == 'Cliente' ? true : false
     end
