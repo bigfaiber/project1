@@ -21,4 +21,16 @@ module ApplicationHelper
     def current_worker
         Trabajador.find(current_user.id) if worker_logged_in?
     end
+
+    def current_client
+        Cliente.find(current_user.id) if client_logged_in?
+    end
+
+    def current_hro
+        Hro.find(current_user.id) if hro_logged_in?
+    end
+
+    def isCliente?
+        User.find(params[:user_id]).role == 'Cliente' ? true : false
+    end
 end

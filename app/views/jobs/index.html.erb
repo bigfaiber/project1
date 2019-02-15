@@ -51,31 +51,19 @@
                   Current month
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last quarter
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Social engagement
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Year-end sale
-                </a>
-              </li>
+
             </ul>
           </div>
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <%if isCliente?%>
+              <h1 class="h2">
+              <%= @client.name + ' ' + @client.last_name + ' ' %>Jobs</h1>
+            <% else %>
+            <h1 class="h2">Jobs</h1>
+            <% end %>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -87,14 +75,23 @@
               </button>
             </div>
           </div>
-          <ul>
-
-
-
-<% @jobs.each do |j|%>
-<li><%= link_to("#{j.position + ' (' + j.quantity.to_s + ')'}", user_job_path(j.user_id,j.id)) %></li>
-<% end %>
-</ul>
+            <ul>
+            
+                <% @jobs.each do |j|%>
+                <div class= 'job-box col-md-3'>
+                    <% q=0 %>
+                    <% j.job_apps.each do |ja|%>
+                      <% q += 1 if ja.approved == true %>
+                    <% end %>
+                    <li><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id)) %></li>
+                    <div class="progress">
+        <div class="progress-bar progress-bar-success progress-bar-striped active" style="width:<%=(q/j.quantity.to_f)*100%>%;">
+          <%=((q/j.quantity.to_f)*100).to_i%>%
+        </div>
+      </div>
+                </div>
+                <% end %>
+            </ul>
           </main>
     </div>
 

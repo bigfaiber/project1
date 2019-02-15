@@ -22,13 +22,14 @@
                   Jobs
                 </a>
               </li>
-              
+              <% if hro_logged_in? %>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<%= user_path(current_hro.id)%>">
                   <span data-feather="users"></span>
                   Customers
                 </a>
               </li>
+              <% end %>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="bar-chart-2"></span>
@@ -75,7 +76,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2">Job Applications</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -91,13 +92,45 @@
 
       
       </div>
-      <% if current_user && current_user.role == "Trabajador"%>
+        <% if current_user && current_user.role == "Trabajador"%>
             <div>
                 <% @jobapps.each do |ja|%>
                     <%= ja.id%>
                     <% end%>
             </div>
-      <% end %>
+        <% end %>
+        <% if hro_logged_in?%>
+        <ul>
+            <div>
+                <% @jobapps.each do |ja|%>
+                      <li><%= ja.trabajador.email%> <%=ja.job.position %> <%=ja.job.cliente.name %> <%=ja.job.cliente.last_name %>
+                    <% if ja.approved == nil %>
+                      <%=button_to "Approve", user_job_app_path(ja.user_id, ja.id), method: :patch, params: {job_app_id: ja.id}, class: "btn btn-primary mt-2" %></li>
+                    <% end%>
+                <% end %>
+            </div>
+        </ul>
+        <%end%>
+        <% if client_logged_in?%>
+        <ul>
+            <div>
+                <% @jobs.each do |j|%>
+                <%= j.description%>
+                <ul>
+                <div>
+                  <% j.job_apps.each do |ja|%>
+                    <li><%= ja.id%></li>
+                    <% end %>
+                </div>
+                    <hr>
+                </ul>
+                  <% end %>
+            </div>
+        </ul>
+        <%end%>
+        
+
+
           </main>
     </div>
 

@@ -5,11 +5,11 @@ class JobsController < ApplicationController
 
     def index
         if isCliente?
-        @client = Cliente.find(params[:user_id])
-        @jobs = @client.jobs
+            @client = Cliente.find(params[:user_id])
+            @jobs = @client.jobs
         else
-        @client = Cliente.all
-        @jobs = Job.all
+            @client = Cliente.all
+            @jobs = Job.all
         end
     end
 
