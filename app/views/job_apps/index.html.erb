@@ -1,78 +1,44 @@
 <div class="container-fluid">
       <div class="row">
 
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href='<%=user_path(current_user.id)%>'>
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="<%= user_job_apps_path(current_user.id) %>">
-                  <span data-feather="file"></span>
-                  Job Apps
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="<%= user_jobs_path(current_user.id)%>">
-                  <span data-feather="folder"></span>
-                  Jobs
-                </a>
-              </li>
-              <% if hro_logged_in? %>
-              <li class="nav-item">
-                <a class="nav-link" href="<%= user_path(current_hro.id)%>">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li>
-              <% end %>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
-              
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Saved reports</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            </h6>
-            <ul class="nav flex-column mb-2">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Current month
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last quarter
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Social engagement
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Year-end sale
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+  <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href='<%=user_path(current_user.id)%>'>
+            <span data-feather="home"></span>
+            Dashboard <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= user_job_apps_path(current_user.id) %>">
+            <span data-feather="file"></span>
+            Job Apps
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= user_jobs_path(current_user.id)%>">
+            <span data-feather="folder"></span>
+            Jobs
+          </a>
+        </li>
+        <% if hro_logged_in? %>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="users"></span>
+              Customers
+            </a>
+          </li>
+        <%end%>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="bar-chart-2"></span>
+            Reports
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -105,7 +71,8 @@
                 <% @jobapps.each do |ja|%>
                       <li><%= ja.trabajador.email%> <%=ja.job.position %> <%=ja.job.cliente.name %> <%=ja.job.cliente.last_name %>
                     <% if ja.approved == nil %>
-                      <%=button_to "Approve", user_job_app_path(ja.user_id, ja.id), method: :patch, params: {job_app_id: ja.id}, class: "btn btn-primary mt-2" %></li>
+                      <%=button_to "Approve", user_job_app_path(ja.user_id, ja.id), method: :patch, params: {job_app_id: ja.id}, class: "btn btn-primary a-btn-slide-text glyphicon glyphicon-ok" %>
+                      <span class = 'glyphicon glyphicon-ok' aria-hidden = 'true'></span></li>
                     <% end%>
                 <% end %>
             </div>

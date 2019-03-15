@@ -22,7 +22,9 @@
   <div class="field col-md-4">
     <%= f.email_field :email, autofocus: true, required:  true, autocomplete: "email" %>
   </div>
-
+  <div class="field col-md-4">
+  <%= f.file_field :avatar %>
+  </div>
   <div class="field col-md-4">
     <%= f.password_field :password,  required:  true, placeholder: '6 chars minimum', autocomplete: "new-password" %>
   </div>

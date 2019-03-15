@@ -30,7 +30,5 @@ module ApplicationHelper
         Hro.find(current_user.id) if hro_logged_in?
     end
 
-    def isCliente?
-        User.find(params[:user_id]).role == 'Cliente' ? true : false
-    end
+
 end

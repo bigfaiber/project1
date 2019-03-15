@@ -13,9 +13,17 @@
   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
 
       <% if user_signed_in? %>
-      <%= link_to(current_user.name + ' ' +current_user.last_name, user_path(current_user.id), class: "navbar-brand col-sm-3 col-md-2 mr-0") %>
+        <% path = current_user.name + ' ' +current_user.last_name %>
+        <%= link_to(user_path(current_user.id), class: "navbar-brand col-sm-3 col-md-2") do %>
+          <div class ='navbar-brand'>
+          <% if current_user.avatar.attached? %>
+            <%= image_tag(current_user.avatar, size: '33x33',class: 'img-thumbnail') %>
+          <% end %>
+          </div>
+          <%= path %>   
+        <% end %>
       <% end %>
-      </a>
+
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">

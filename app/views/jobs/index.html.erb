@@ -2,63 +2,48 @@
 <div class="container-fluid">
       <div class="row">
 
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href='<%=user_path(current_user.id)%>'>
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%= user_job_apps_path(current_user.id) %>">
-                  <span data-feather="file"></span>
-                  Job Apps
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="<%= user_jobs_path(current_user.id)%>">
-                  <span data-feather="folder"></span>
-                  Jobs
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
-              
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Saved reports</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            </h6>
-            <ul class="nav flex-column mb-2">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Current month
-                </a>
-              </li>
-
-            </ul>
-          </div>
-        </nav>
+  <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href='<%=user_path(current_user.id)%>'>
+            <span data-feather="home"></span>
+            Dashboard <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= user_job_apps_path(current_user.id) %>">
+            <span data-feather="file"></span>
+            Job Apps
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="<%= user_jobs_path(current_user.id)%>">
+            <span data-feather="folder"></span>
+            Jobs
+          </a>
+        </li>
+        <% if hro_logged_in? %>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="users"></span>
+              Customers
+            </a>
+          </li>
+        <%end%>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="bar-chart-2"></span>
+            Reports
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <%if isCliente?%>
+            <%if client_logged_in?%>
               <h1 class="h2">
               <%= @client.name + ' ' + @client.last_name + ' ' %>Jobs</h1>
             <% else %>
@@ -77,21 +62,24 @@
           </div>
             <ul>
             
-                <% @jobs.each do |j|%>
+              <% @jobs.each do |j|%>
                 <div class= 'job-box col-md-3'>
-                    <% q=0 %>
-                    <% j.job_apps.each do |ja|%>
-                      <% q += 1 if ja.approved == true %>
-                    <% end %>
-                    <li><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id)) %></li>
-                    <div class="progress">
-        <div class="progress-bar progress-bar-success progress-bar-striped active" style="width:<%=(q/j.quantity.to_f)*100%>%;">
-          <%=((q/j.quantity.to_f)*100).to_i%>%
-        </div>
-      </div>
-                </div>
+                <% q=0 %>
+                <% j.job_apps.each do |ja|%>
+                  <% q += 1 if ja.approved == true %>
                 <% end %>
+                <li><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id)) %></li>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped active" style="width:<%=(q/j.quantity.to_f)*100%>%;">
+              <%=((q/j.quantity.to_f)*100).to_i%>%
+                  </div>
+                </div>
+                </div>
+              <% end %>
             </ul>
+            <% if client_logged_in?%>
+            <%= link_to('Create a job', new_user_job_path(current_user.id))%>
+            <%end%>
           </main>
     </div>
 
