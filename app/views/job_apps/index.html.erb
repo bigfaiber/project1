@@ -11,7 +11,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%= user_job_apps_path(current_user.id) %>">
+          <a class="nav-link active" href="<%= user_job_apps_path(current_user.id) %>">
             <span data-feather="file"></span>
             Job Apps
           </a>
@@ -66,17 +66,52 @@
             </div>
         <% end %>
         <% if hro_logged_in?%>
-        <ul>
-            <div>
-                <% @jobapps.each do |ja|%>
-                      <li><%= ja.trabajador.email%> <%=ja.job.position %> <%=ja.job.cliente.name %> <%=ja.job.cliente.last_name %>
-                    <% if ja.approved == nil %>
-                      <%=button_to "Approve", user_job_app_path(ja.user_id, ja.id), method: :patch, params: {job_app_id: ja.id}, class: "btn btn-primary a-btn-slide-text glyphicon glyphicon-ok" %>
-                      <span class = 'glyphicon glyphicon-ok' aria-hidden = 'true'></span></li>
-                    <% end%>
+        <table class = 'table table-hover'>
+          <thead class = 'thead-light'>
+            <tr>
+              <th>Name</th>
+              <th>Last Name</th>
+              <th>Phone</th>
+              <th>Rating</th>
+              <th>Position</th>
+              <th>Date</th>
+              <th>Client</th>
+              <th>Approve</th>
+            </tr>
+          </thead>
+ 
+            <tbody>
+              <% @jobapps.each do |ja| %>
+                <% if ja.approved == true %>
+                <tr class = 'table-success'>
+                <%else%>
+                <tr class = 'table-warning'>
                 <% end %>
-            </div>
-        </ul>
+                  <td><%= ja.trabajador.name%></td>
+                  <td><%= ja.trabajador.last_name%></td>
+                  <td><%= ja.trabajador.phone%></td>
+                  <td><% ja.trabajador.rating.to_i.times do  %>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <% end %>
+                    <% ja.trabajador.blank_stars.to_i.times do  %>
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                    <% end %></td>
+                  <td><%= ja.job.position %></td>
+                  <td><%= ja.job.start_datetime&.strftime('%b %e, %l:%M %p') %></td>
+                  <td><%= ja.job.cliente.name %> <%=ja.job.cliente.last_name %></td>
+                  
+                  <td><div class = 'row botones '><% if ja.approved == nil %>
+                    <%=button_to user_job_app_path(ja.user_id, ja.id), method: :patch, params: {job_app_id: ja.id}, class: "btn btn-primary btn-sm glyphicon glyphicon-ok" do %>
+                    <% end %>
+                  <% end%>
+                  <% if ja.approved == nil||ja.approved == true %>
+                    <%=button_to user_job_app_path(ja.user_id, ja.id), method: :delete, params: {job_app_id: ja.id}, class: "btn btn-danger btn-sm glyphicon glyphicon-remove" do %>
+                    <% end %>
+                  <% end%></div></td>
+                  
+                </tr>
+              <% end %>
+
         <%end%>
         <% if client_logged_in?%>
         <ul>

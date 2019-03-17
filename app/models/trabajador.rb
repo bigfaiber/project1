@@ -3,5 +3,8 @@ class Trabajador < User
     has_many :job_apps, foreign_key: "user_id"
     has_many :jobs, through: :job_apps
 
+    def blank_stars
+        5 - rating.to_i
+    end
 end
 

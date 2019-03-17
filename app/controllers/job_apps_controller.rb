@@ -31,4 +31,10 @@ class JobAppsController < ApplicationController
         redirect_to user_job_apps_path(current_hro.id)
     end
 
+    def destroy
+        jobapp = JobApp.find(params[:job_app_id])
+        jobapp.destroy
+        redirect_to user_job_apps_path(current_hro.id)
+    end
+
 end

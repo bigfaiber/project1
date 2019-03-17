@@ -7,6 +7,8 @@ class JobsController < ApplicationController
         if client_logged_in?
             @client = Cliente.find(params[:user_id])
             @jobs = @client.jobs
+        elsif hro_logged_in?
+            @jobs = Job.joins(:cliente).where(:users => {:HRO_id => current_hro.id})
         else
             @client = Cliente.all
             @jobs = Job.all
@@ -16,6 +18,11 @@ class JobsController < ApplicationController
     def show
         @client = Cliente.find(params[:user_id])
         @job = @client.jobs.find(params[:id])#.order(start_datetime: :desc)[0...5]
+        if hro_logged_in
+            @client = Cliente.all.where(HRO_id: current_hro.id)
+            @job = @client.jobs.find(params[:id]).order(start_datetime: :desc)[0...5]
+            #Job.joins("INNER JOIN users ON HRO_id = 10").distinct
+        end
         #@worker = Trabajador.find(params[:user_id])
     end
 

@@ -1,17 +1,16 @@
 
 <div id="accordion">
-  <div class = 'container'>
+
   <table class="table ">
   <thead>
     <tr class = 'row'>
-      <div class = 'container'>
 
-      <th class="col-sm-4" style="padding-left: 46px;">Position:</th>
-      <th class="col-sm-4" style="padding-left: 1.75rem;">Start Date:</th>
-      <th class="col-sm-3" style="padding-left: 5px;">End Date:</th>
+      <th class="col-sm-3" style="padding-left: 46px;">Position:</th>
+      <th class="col-sm-4" style="padding-left: 2rem;">Client:</th>
+      <th class="col-sm-2" style="padding-left: 0.75rem;">Start Date:</th>
+      <th class="col-sm-2" style="padding-left: 0px;">End Date:</th>
       <th class="col-sm-1">Status:</th>
 
-      </div>
     </tr>
     
   </thead>
@@ -23,9 +22,10 @@
             <button class="btn btn-link w-100" data-toggle="collapse" data-target="#collapse<%= job.id %>" aria-expanded="false" aria-controls="collapse<%= job.id %>">
 
                 <div class="row">
-                  <div class="col-sm-4 text-left" ><strong></strong> <%= job.position%></div>
-                  <div class="col-sm-4 text-left"><strong></strong> <%= job.start_datetime&.strftime('%e %b %Y %H:%M:%S%p')%></div>
-                  <div class="col-sm-3 text-left"><strong></strong> <%= job.end_datetime&.strftime('%e %b %Y %H:%M:%S%p')%></div>
+                  <div class="col-sm-3 text-left" ><%= job.position%> </div>
+                  <div class="col-sm-4 text-left" ><%= job.cliente.name%> <%= job.cliente.last_name%> </div>
+                  <div class="col-sm-2 text-left"><strong></strong> <%= job.start_datetime&.strftime('%b %e, %l:%M %p')%></div>
+                  <div class="col-sm-2 text-left"><strong></strong> <%= job.end_datetime&.strftime('%b %e, %l:%M %p')%></div>
                   <div class="quantity col-sm-1 text-right"><strong><%= job.job_apps.where(approved: true).length %>/<%= job.quantity %></strong></div>
                 </div>
 
@@ -47,5 +47,5 @@
         </div>
       </div>
     <% end %>
-  </div>
+
 </div>

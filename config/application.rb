@@ -17,5 +17,6 @@ module Project1
     # the framework and any gems in your application.
     config.time_zone = 'Bogota'
     config.active_record.default_timezone = :local
+    config.assets.paths << "#{Rails}/vendor/assets/fonts"
   end
 end

@@ -119,7 +119,7 @@ border-bottom:1px solid #efefef;
 }
 
 .btn-link{
-color: #3e0b8bed;
+color: #52092ded;
 }
 .quantity{
   color: red;
@@ -128,4 +128,36 @@ color: #3e0b8bed;
 .row{
   margin-left: 0;
   margin-right: 0;
+}
+
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-ok{
+  margin-right: 3px;
+}
+
+.glyphicon-ok:before {
+  content: "\e013";
+}
+.glyphicon-remove:before {
+  content: "\e014";
+}
+.glyphicon-star:before {
+  content: "\e006";
+  color: blue;
+  margin-right: 0;
+}
+.glyphicon-star-empty:before {
+  color: rgb(235, 8, 8);
+  content: "\e007";
 }
