@@ -121,6 +121,14 @@ border-bottom:1px solid #efefef;
 .btn-link{
 color: #52092ded;
 }
+.quantity-good{
+  color: green;
+  padding-right: 0;
+}
+.quantity-reg{
+  color: rgb(196, 108, 7);
+  padding-right: 0;
+}
 .quantity{
   color: red;
   padding-right: 0;
@@ -160,4 +168,40 @@ color: #52092ded;
 .glyphicon-star-empty:before {
   color: rgb(235, 8, 8);
   content: "\e007";
+}
+.row > .col-xs-3 {
+  display:flex;
+  flex: 0 0 25%;
+  max-width: 100%;
+}
+
+.flex-nowrap {
+  overflow: auto;
+  -webkit-flex-wrap: nowrap!important;
+  -ms-flex-wrap: nowrap!important;
+  flex-wrap: nowrap!important;
+}
+.flex-row-jobapps {
+  display:flex;
+  -webkit-box-orient: horizontal!important;
+  -webkit-box-direction: normal!important;
+  -webkit-flex-direction: row!important;
+  -ms-flex-direction: row!important;
+  flex-direction: row!important;
+}
+
+
+.well {
+  min-height: 170px;
+  width: 150px;
+}
+.bordered-card{
+  margin: 10px;
+  border: 2px solid #52092ded;
+  width: 300px;
+}
+.content-card{
+  padding: 5px;
+  width: max-content;
+  
 }

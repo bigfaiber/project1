@@ -5,10 +5,10 @@ class JobsController < ApplicationController
 
     def index
         if client_logged_in?
-            @client = Cliente.find(params[:user_id])
+            @client = Cliente.find(params[:user_id] || params[:cliente_id])
             @jobs = @client.jobs
         elsif hro_logged_in?
-            @jobs = Job.joins(:cliente).where(:users => {:HRO_id => current_hro.id})
+            @jobs = Job.joins(:cliente).where(:users => {:HRO_id => current_hro.id}).order(start_datetime: :desc)
         else
             @client = Cliente.all
             @jobs = Job.all
@@ -18,11 +18,11 @@ class JobsController < ApplicationController
     def show
         @client = Cliente.find(params[:user_id])
         @job = @client.jobs.find(params[:id])#.order(start_datetime: :desc)[0...5]
-        if hro_logged_in
-            @client = Cliente.all.where(HRO_id: current_hro.id)
-            @job = @client.jobs.find(params[:id]).order(start_datetime: :desc)[0...5]
-            #Job.joins("INNER JOIN users ON HRO_id = 10").distinct
-        end
+        # if hro_logged_in?
+        #     @client = Cliente.all.where(HRO_id: current_hro.id)
+        #     @job = @client.jobs.find(params[:id]).order(start_datetime: :desc)[0...5]
+        #     #Job.joins("INNER JOIN users ON HRO_id = 10").distinct
+        # end
         #@worker = Trabajador.find(params[:user_id])
     end
 
@@ -32,7 +32,7 @@ class JobsController < ApplicationController
     end
 
     def create
-        @user = Cliente.find(current_client.id)
+        @user = Cliente.find(current_user.id)
         @user.jobs.create(post_params)
         redirect_to cliente_jobs_path(current_client.id)
     end

@@ -22,12 +22,14 @@
                   Jobs
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li>
+               <% if hro_logged_in? %>
+                <li class="nav-item">
+                  <a class="nav-link" href="<%= clientes_path(current_hro.id)%>">
+                    <span data-feather="users"></span>
+                    Clients
+                  </a>
+                </li>
+              <%end%>
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="bar-chart-2"></span>
@@ -63,10 +65,14 @@
       <%= @job.requirements%>
       </div>
       </div>
-      <% if current_user && current_user.role == "Trabajador"%>
+      <% if current_user && current_user.role == "Trabajador" && @job.job_apps.where(user_id: current_worker.id).length == 0%>
             <div>
                 <%=button_to "Apply", user_job_apps_path(current_user), method: :post, params: {job_id: @job.id}, class: "btn btn-primary mt-3" %>
             </div>
+      <%elsif current_user && current_user.role == "Trabajador" %>
+      <br>
+      <hr/>
+        <div><h5>You have already applied to this job.</h5></div>
       <% end %>
           </main>
     </div>

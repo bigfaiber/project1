@@ -14,7 +14,11 @@
         <li class="nav-item">
           <a class="nav-link" href="<%= user_job_apps_path(current_user.id) %>">
             <span data-feather="file"></span>
-            Job Apps
+            <% if client_logged_in? %>
+              Approved applicants
+            <% else %>
+              Job Apps
+            <% end %>
           </a>
         </li>
         <li class="nav-item">
@@ -25,9 +29,9 @@
         </li>
         <% if hro_logged_in? %>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<%= clientes_path(current_hro.id)%>">
               <span data-feather="users"></span>
-              Customers
+              Clients
             </a>
           </li>
         <%end%>
@@ -47,7 +51,7 @@
               <h1 class="h2">
               <%= @client.name + ' ' + @client.last_name + ' ' %>Jobs</h1>
             <% else %>
-            <h1 class="h2">Jobs</h1>
+            <h1 class="h2">Clients' needs</h1>
             <% end %>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
@@ -60,26 +64,106 @@
               </button>
             </div>
           </div>
-            <ul>
+          <% if client_logged_in? %>
+              <%= link_to('Create a job', new_user_job_path(current_client.id))%>
+            <% end %>
+          <% if worker_logged_in? || client_logged_in? %>
             
               <% @jobs.each do |j|%>
-                <div class= 'job-box col-md-3'>
+                <div class= 'job-box col-md-6'>
                 <% q=0 %>
                 <% j.job_apps.each do |ja|%>
                   <% q += 1 if ja.approved == true %>
                 <% end %>
-                <li><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id)) %></li>
+                <h5><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id)) %></h5>
+                <ul>
+                <li><strong>Start date: </strong> <%=j.start_datetime.strftime('%b %e, %l:%M %p')%>
+                <li><strong>Salary: </strong> $<%=j.salary%>
+                <li><strong>Requirements: </strong> <%=j.requirements%>
                 <div class="progress">
                   <div class="progress-bar progress-bar-success progress-bar-striped active" style="width:<%=(q/j.quantity.to_f)*100%>%;">
               <%=((q/j.quantity.to_f)*100).to_i%>%
                   </div>
                 </div>
+                </ul>
                 </div>
+                
               <% end %>
-            </ul>
-            <% if client_logged_in?%>
-            <%= link_to('Create a job', new_user_job_path(current_user.id))%>
-            <%end%>
+            
+          <% end %>
+            
+            <% if hro_logged_in?%>
+              <div id="accordion">
+
+                <table class="table ">
+                <thead>
+                  <tr class = 'row'>
+
+                    <th class="col-sm-3" style="padding-left: 46px;">Position:</th>
+                    <th class="col-sm-4" style="padding-left: 2rem;">Client:</th>
+                    <th class="col-sm-2" style="padding-left: 0.75rem;">Start Date:</th>
+                    <th class="col-sm-2" style="padding-left: 0px;">End Date:</th>
+                    <th class="col-sm-1">Success:</th>
+
+                  </tr>
+                  
+                </thead>
+                </table>
+                <%if @jobs.length == 0%>
+                <h2 class = 'mt-5'>Go for a walk or grab some coffee, job is done!</h2>
+                <% end %>
+                  <% @jobs.each do |job|%>
+                    <div class="card">
+                      <div class="card-header" id="heading<%= job.id %>">
+
+                          <button class="btn btn-link w-100" data-toggle="collapse" data-target="#collapse<%= job.id %>" aria-expanded="false" aria-controls="collapse<%= job.id %>">
+
+                              <div class="row">
+                                <div class="col-sm-3 text-left" ><%= job.position%> </div>
+                                <div class="col-sm-4 text-left" ><%= job.cliente.name%> <%= job.cliente.last_name%> </div>
+                                <div class="col-sm-2 text-left"><strong></strong> <%= job.start_datetime&.strftime('%b %e, %l:%M %p')%></div>
+                                <div class="col-sm-2 text-left"><strong></strong> <%= job.end_datetime&.strftime('%b %e, %l:%M %p')%></div>
+                                <% if success_rate(job)>=80 %>
+                                  <div class="quantity-good col-sm-1 text-right">
+                                <% elsif(success_rate(job)<80 && success_rate(job)>50) %>
+                                  <div class="quantity-reg col-sm-1 text-right">
+                                <% else %>
+                                  <div class="quantity col-sm-1 text-right">
+                                <% end %>
+                                <strong><%= success_rate(job)%>%</strong></div>
+                              </div>
+
+                          </button>
+                      </div>
+
+                      <div id="collapse<%= job.id %>" class="collapse" aria-labelledby="heading<%= job.id %>" data-parent="#accordion">
+                        <div class="card-body">
+                          <div>
+                            <strong>Description: </strong> <%= job.description%>
+                          </div>
+                          <div>
+                            <strong>Requirements: </strong><%= job.requirements%>
+                          </div>
+                          <div>
+                            <strong>Salary: </strong><%= job.salary%>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+
+              </div>              
+              <div class="card-group">
+                <div class="card">
+                  <img class="card-img-top" src="..." alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           </main>
     </div>
 

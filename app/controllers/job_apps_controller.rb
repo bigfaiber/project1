@@ -10,12 +10,12 @@ class JobAppsController < ApplicationController
     def index
         if client_logged_in?
             @jobs = current_client.jobs
-            #@jobapps = jobs.job_apps
+
         elsif worker_logged_in?
             @worker = Trabajador.find(params[:user_id])
             @jobapps = @worker.job_apps
         else
-            @jobapps = current_hro.job_apps
+            @jobapps = current_hro.job_apps.current
         end
     end
 

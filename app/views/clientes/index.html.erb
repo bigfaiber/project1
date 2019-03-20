@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
       <div class="row">
 
@@ -17,14 +18,14 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="<%= user_jobs_path(current_user.id)%>">
+          <a class="nav-link " href="<%= user_jobs_path(current_user.id)%>">
             <span data-feather="folder"></span>
             Jobs
           </a>
         </li>
         <% if hro_logged_in? %>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link active" href="<%= clientes_path(current_hro.id)%>">
               <span data-feather="users"></span>
               Clients
             </a>
@@ -41,22 +42,36 @@
   </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-         
-          <div class = 'container col-sm-6'>
-            <%= bootstrap_form_for [@user, @job] do |f| %>
-              <%= f.text_field :position, required: true %>
-              <%= f.text_area :description %>
-              <%= f.text_area :requirements, required: true %>
-              <div class = 'd-flex flex-row wrap justify-content-between'>
-              <%= f.number_field :salary, prepend: "$" %>
-              <%= f.number_field :quantity, required: true %>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            
+            <h1 class="h2">Our Clients</h1>
+            
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary">Share</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
-              <%=f.datetime_select :start_datetime, required: true, class: "form-control"%>
-              <%=f.datetime_select :end_datetime, required: true, class: "form-control"%>
-
-              <%= f.submit "Create Job" %>
-            <% end %>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+              </button>
             </div>
+          </div>
+          <div class = "d-flex justify-content-start flex-wrap">
+    <% @clients.each do |client|%>
+      <div class="card border-success" style="width: 250px; margin: 5px;">
+        <img class="card-img-top" )>
+        <%= image_tag(  client.avatar)%>
+        <div class="card-body">
+          <h5 class="card-title"><%= client.name %> <%= client.last_name %></h5>
+          <p class="card-text"><strong>Phone: </strong><%= client.phone %>
+          <br>
+          <strong>Email: </strong><%= client.email %></p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+      <% end %>
+      </div>
           </main>
     </div>
 
@@ -73,5 +88,6 @@
     </script>
 
 
-    <!-- FORMS -->
- 
+
+
+

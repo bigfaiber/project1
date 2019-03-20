@@ -16,7 +16,11 @@
         <li class="nav-item">
           <a class="nav-link" href="<%= user_job_apps_path(current_user.id) %>">
             <span data-feather="file"></span>
-            Job Apps
+            <% if client_logged_in? %>
+              Approved applicants
+            <% else %>
+              Job Apps
+            <% end %>
           </a>
         </li>
         <li class="nav-item">
@@ -27,9 +31,9 @@
         </li>
         <% if hro_logged_in? %>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<%= clientes_path(current_hro.id)%>">
               <span data-feather="users"></span>
-              Customers
+              Clients
             </a>
           </li>
         <%end%>

@@ -30,5 +30,8 @@ module ApplicationHelper
         Hro.find(current_user.id) if hro_logged_in?
     end
 
+    def success_rate(job)
+        (job.job_apps.where(approved: true).length/job.quantity.to_f*100).round
+    end
 
 end
