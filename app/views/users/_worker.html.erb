@@ -1,20 +1,27 @@
-              <% @jobs.each do |j|%>
-                <div class= 'job-box col-md-6'>
-                <% q=0 %>
-                <% j.job_apps.each do |ja|%>
-                  <% q += 1 if ja.approved == true %>
-                <% end %>
-                <h5><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id)) %></h5>
-                <ul>
-                <li><strong>Start date: </strong> <%=j.start_datetime.strftime('%b %e, %l:%M %p')%>
-                <li><strong>Salary: </strong> $<%=j.salary%>
-                <li><strong>Requirements: </strong> <%=j.requirements%>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-success progress-bar-striped active" style="width:<%=(q/j.quantity.to_f)*100%>%;">
-              <%=((q/j.quantity.to_f)*100).to_i%>%
-                  </div>
-                </div>
-                </ul>
-                </div>
-                
-              <% end %>
+<div class="d-flex flex-row bd-highlight">
+    <div class = 'col jobscroll'>
+      <% @jobs.each do |j|%>
+        <div class= 'job-box col-md-12'>
+        <% q=0 %>
+        <% j.job_apps.each do |ja|%>
+          <% q += 1 if ja.approved == true %>
+        <% end %>
+          <h5><%= link_to("#{j.position + ' ('+ q.to_s + '/' + j.quantity.to_s + ')' }", user_job_path(j.user_id,j.id), remote: true) %></h5>
+        <ul>
+          <li><strong>Start date: </strong> <%=j.start_datetime.strftime('%b %e, %l:%M %p')%>
+          <li><strong>Salary: </strong> $<%=j.salary%>
+          <li><strong>Requirements: </strong> <%=j.requirements%>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success progress-bar-striped active" style="width:<%=(q/j.quantity.to_f)*100%>%;">
+            <%=((q/j.quantity.to_f)*100).to_i%>%
+          </div>
+        </div>
+        </ul>
+        </div>
+        
+      <% end %>
+    </div>
+    <div class = 'col jobdetails'>
+        
+    </div>
+</div>

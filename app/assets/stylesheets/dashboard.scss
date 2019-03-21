@@ -175,6 +175,11 @@ color: #52092ded;
   max-width: 100%;
 }
 
+.jobscroll {
+  overflow-y: scroll;
+  max-height: 530px;
+}
+
 .flex-nowrap {
   overflow: auto;
   -webkit-flex-wrap: nowrap!important;
@@ -184,6 +189,15 @@ color: #52092ded;
 .flex-row-jobapps {
   display:flex;
   -webkit-box-orient: horizontal!important;
+  -webkit-box-direction: normal!important;
+  -webkit-flex-direction: row!important;
+  -ms-flex-direction: row!important;
+  flex-direction: row!important;
+}
+
+.flex-column-jobs{
+  display:flex;
+  -webkit-box-orient: vertical!important;
   -webkit-box-direction: normal!important;
   -webkit-flex-direction: row!important;
   -ms-flex-direction: row!important;

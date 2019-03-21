@@ -1,0 +1,43 @@
+
+      <div class="row">
+
+
+        <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h4"><%= job.position + ' ' %>details</h1>
+    
+          </div>
+          <div>
+      <div><h5>Client: <%= @client.name + ' ' + @client.last_name%></h5></div>
+      <strong>Description: </strong><%= job.description%>
+      <div>
+      <strong>Requirements: </strong><%= job.requirements%>
+      </div>
+      </div>
+      <% if current_user && current_user.role == "Trabajador" && job.job_apps.where(user_id: current_worker.id).length == 0%>
+            <div>
+                <%=button_to "Apply", user_job_apps_path(current_user), method: :post, params: {job_id: job.id}, class: "btn btn-primary mt-3" %>
+            </div>
+      <%elsif current_user && current_user.role == "Trabajador" %>
+      <br>
+      <hr/>
+        <div><h5>You have already applied to this job.</h5></div>
+      <% end %>
+          </main>
+
+
+
+<!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+
+
+

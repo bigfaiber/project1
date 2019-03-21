@@ -18,6 +18,12 @@ class JobsController < ApplicationController
     def show
         @client = Cliente.find(params[:user_id])
         @job = @client.jobs.find(params[:id])#.order(start_datetime: :desc)[0...5]
+
+        if worker_logged_in?
+            respond_to do |format|
+                format.js {render 'showInfo', layout: false} # Add this line to you respond_to block
+            end
+        end
   
     end
 

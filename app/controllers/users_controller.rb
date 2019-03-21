@@ -3,15 +3,15 @@ class UsersController < ApplicationController
     protect_from_forgery with: :exception
 
     def show
+        jobs = params[:jobs] ? Job.where(id: params[:jobs]) : Job.all
         if client_logged_in?
             @client = Cliente.find(params[:id])
-            @jobs = @client.jobs.where("start_datetime > ?", DateTime.now)
+            @jobs = jobs.where("start_datetime > ? AND user_id = ?", DateTime.now, params[:id])
         end
 
-        
         @user = User.find(params[:id])
         if worker_logged_in?
-            @jobs = Job.all.where("start_datetime > ?", DateTime.now)
+            @jobs = jobs.where("start_datetime > ?", DateTime.now)
         end
 
         if hro_logged_in?
@@ -21,3 +21,4 @@ class UsersController < ApplicationController
         end
     end
 end
+
