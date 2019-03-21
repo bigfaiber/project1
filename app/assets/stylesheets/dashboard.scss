@@ -205,3 +205,16 @@ color: #52092ded;
   width: max-content;
   
 }
+
+.fondo{
+  background: {
+     image: url("https://cdn.hrpayrollsystems.net/wp-content/uploads/2017/02/human_resources_management-768x512.jpeg");
+     size: cover;
+     position: center;
+     attachment: fixed;
+  }
+}
+
+.container-form {
+  border-radius: 10px;
+}

@@ -20,12 +20,14 @@
             <% end %>
           </a>
         </li>
+        <% if client_logged_in? || hro_logged_in? %>
         <li class="nav-item">
-          <a class="nav-link" href="<%= user_jobs_path(current_user.id) %>">
+          <a class="nav-link" href="<%= user_jobs_path(current_user.id)%>">
             <span data-feather="folder"></span>
-            Jobs
+              Jobs
           </a>
         </li>
+        <% end %>
         <% if hro_logged_in? %>
           <li class="nav-item">
             <a class="nav-link" href="<%= clientes_path(current_hro.id) %>">
@@ -67,12 +69,71 @@
 
       </div>
         <% if current_user && current_user.role == "Trabajador"%>
+
+
+          <div id="accordion">
+
+            <table class="table ">
+            <thead>
+              <tr class = 'row'>
+
+                <th class="col-sm-3" style="padding-left: 46px;">Position:</th>
+                <th class="col-sm-3" style="padding-left: 2rem;">Client:</th>
+                <th class="col-sm-2" style="padding-left: 0.75rem;">Start Date:</th>
+                <th class="col-sm-2" style="padding-left: 0px;">End Date:</th>
+                <th class="col-sm-2" style="padding-left: 2.75rem;">Status:</th>
+
+              </tr>
+              
+            </thead>
+            </table>
+            <%if @jobapps.length == 0%>
+            <h2 class = 'mt-5'>U have no applied to any job or have not been selected!</h2>
+            <% end %>
+
+    <% @jobapps.each do |ja|%>
+      <div class="card">
+        <div class="card-header" id="heading<%= ja.job.id %>">
+
+            <button class="btn btn-link w-100" data-toggle="collapse" data-target="#collapse<%= ja.job.id %>" aria-expanded="false" aria-controls="collapse<%= ja.job.id %>">
+
+                <div class="row">
+                  <div class="col-sm-3 text-left" ><%= ja.job.position%> </div>
+                  <div class="col-sm-3 text-left" ><%= ja.job.cliente.name%> <%= ja.job.cliente.last_name%> </div>
+                  <div class="col-sm-2 text-left"><strong></strong> <%= ja.job.start_datetime&.strftime('%b %e, %l:%M %p')%></div>
+                  <div class="col-sm-2 text-left"><strong></strong> <%= ja.job.end_datetime&.strftime('%b %e, %l:%M %p')%></div>
+                  
+                  <% if ja.approved == true %>
+                    <div class="quantity-good col-sm-2 text-center"><strong>
+                    Approved</strong></div>
+                  <% else %>
+                  <div class="quantity-reg col-sm-2 text-center"><strong>
+                  Pending</strong></div>
+                  <% end %>
+                </div>
+
+            </button>
+        </div>
+
+        <div id="collapse<%= ja.job.id %>" class="collapse" aria-labelledby="heading<%= ja.job.id %>" data-parent="#accordion">
+          <div class="card-body">
             <div>
-                <% @jobapps.each do |ja|%>
-                    <%= ja.id%>
-                    <% end%>
+              <strong>Description: </strong> <%= ja.job.description%>
             </div>
-        <% end %>
+            <div>
+              <strong>Requirements: </strong><%= ja.job.requirements%>
+            </div>
+            <div>
+              <strong>Salary: </strong><%= ja.job.salary%>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+</div>
+  <% end %>
+<% # HRO VIEW JOB_APPS%>
         <% if hro_logged_in?%>
         <table class = 'table table-hover'>
           <thead class = 'thead-light'>

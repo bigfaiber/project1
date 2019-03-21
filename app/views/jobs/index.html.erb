@@ -47,11 +47,13 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <%if client_logged_in?%>
+            <%if client_logged_in? %>
               <h1 class="h2">
               <%= @client.name + ' ' + @client.last_name + ' ' %>Jobs</h1>
+            <% elsif worker_logged_in? %>
+              <h1 class="h2">Available Jobs</h1>
             <% else %>
-            <h1 class="h2">Clients' needs</h1>
+              <h1 class="h2">Clients' needs</h1>
             <% end %>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
@@ -137,32 +139,32 @@
                       </div>
 
                       <div id="collapse<%= job.id %>" class="collapse" aria-labelledby="heading<%= job.id %>" data-parent="#accordion">
-                        <div class="card-body">
-                          <div>
-                            <strong>Description: </strong> <%= job.description%>
-                          </div>
-                          <div>
-                            <strong>Requirements: </strong><%= job.requirements%>
-                          </div>
-                          <div>
-                            <strong>Salary: </strong><%= job.salary%>
-                          </div>
-                        </div>
+                        <div class="row flex-row-jobapps flex-nowrap">
+
+                
+                  <% job.job_apps.where(approved: true).each do |ja|%>
+                  <div class="col-xs-3 bordered-card">
+                    <div class="well"><%= image_tag(ja.trabajador.avatar,size: '150x170')%></div>
+                    <p>
+                    <div class = 'content-card'><strong><%= ja.trabajador.name %> <%= ja.trabajador.last_name %></strong><hr/>
+                    <br>
+                    <strong>Cel: </strong><%= ja.trabajador.phone %>
+                    <br>
+                    <strong>Email: </strong><%= ja.trabajador.email %>
+                    </div>
+                   
+                    </p>
+
+                  </div>
+          
+                    <% end %>
+                    
+              </div>
                       </div>
                     </div>
                   <% end %>
 
               </div>              
-              <div class="card-group">
-                <div class="card">
-                  <img class="card-img-top" src="..." alt="Card image cap">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                  </div>
-                </div>
-              </div>
             <% end %>
           </main>
     </div>

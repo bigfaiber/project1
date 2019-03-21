@@ -5,9 +5,13 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
+              <% if worker_logged_in? %>
+                <a class="nav-link active" href='<%=user_path(current_user.id)%>'>
+              <% else %>
                 <a class="nav-link" href='<%=user_path(current_user.id)%>'>
+              <%end%>
                   <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
+                  Dashboard<span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -16,12 +20,16 @@
                   Job Apps
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="<%= user_jobs_path(current_user.id)%>">
-                  <span data-feather="folder"></span>
-                  Jobs
-                </a>
-              </li>
+                      <% if client_logged_in? || hro_logged_in? %>
+        <li class="nav-item">
+          <a class="nav-link active" href="<%= user_jobs_path(current_user.id)%>">
+            <span data-feather="folder"></span>
+            
+              Jobs
+            
+          </a>
+        </li>
+        <% end %>
                <% if hro_logged_in? %>
                 <li class="nav-item">
                   <a class="nav-link" href="<%= clientes_path(current_hro.id)%>">

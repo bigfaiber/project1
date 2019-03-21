@@ -8,7 +8,16 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+<p class="navbar-text pull-right">
+<% if user_signed_in? %>
+  Logged in as <strong><%= current_user.email %></strong>.
+  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+<% else %>
+  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+<% end %>
+</p>
   <body>
   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
 
@@ -24,31 +33,22 @@
         <% end %>
       <% end %>
 
-      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+      <input class="form-control form-control-dark w-100" type="text" placeholder="Welcome to HRO App" aria-label="Search">
+
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
+        <% if user_signed_in? %>
           <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'nav-link'  %>
+        <% else %>
+          <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %>
+        <% end %>
         </li>
       </ul>
     </nav>
-  
-
-<p class="navbar-text pull-right">
-<% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %></strong>.
-  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-<% end %>
-</p>
     <%= yield %>
 
     
-<% if alert %>
-  <p class="alert alert-danger"><%= alert %></p>
-<% end %>
+
   </body>
 
   
